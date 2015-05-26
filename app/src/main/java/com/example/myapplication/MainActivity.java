@@ -30,7 +30,7 @@ public class MainActivity extends ActionBarActivity {
     WebView webView;
     String contentString;
 
-    private String IndexURL = "index.html";
+    private String IndexURL = "file:///android_asset/index.html";
 
 //    ListView listView;
 
@@ -41,6 +41,7 @@ public class MainActivity extends ActionBarActivity {
         webView = (WebView)findViewById(R.id.webView);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebChromeClient(new WebChromeClient());
+//        webView.loadUrl(IndexURL);
 
 //        listView = (ListView)findViewById(R.id.scrollView);
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -63,34 +64,18 @@ public class MainActivity extends ActionBarActivity {
     }
 
     void parseJson(final JSONObject response) {
-        try {
+    try {
+        contentString = response.getString("pageContent");
+        Log.d(TAG,IndexURL);
+        webView.loadUrl(IndexURL);
 
-            webView.setWebViewClient(new WebViewClient(){
-                public void onPageFinished(WebView view, String url){
-                    try {
-                        contentString = response.getString("pageContent");
-                        Log.d(TAG,IndexURL);
-                        webView.loadUrl();
-
-                        webView.setWebChromeClient(new WebChromeClient(){
-                            public void onPageFinished(WebView view,String URL)
-                            {
-                                String javascript =  contentString;
-                                webView.loadUrl("javascript:init('"+javascript+"')");
-                            }
-                        });
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-            //"<img src=\"http://10.pratilipi.info/pratilipi-cover/150/pratilipi\">"+
-//            webView.loadData(response.getString("pageContent"), "text/html; charset=UTF-8", null);
-
-//            webView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
-//            webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-
+        webView.setWebChromeClient(new WebChromeClient(){
+            public void onPageFinished(WebView view,String URL)
+            {
+                String javascript =  contentString;
+                webView.loadUrl("javascript:init('"+javascript+"')");
+            }
+        });
     }catch (Exception e){
             e.printStackTrace();
         }
