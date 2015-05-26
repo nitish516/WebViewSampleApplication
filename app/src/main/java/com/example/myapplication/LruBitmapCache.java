@@ -17,6 +17,7 @@ public class LruBitmapCache extends LruCache<String, Bitmap> implements
         return cacheSize;
     }
 
+    //test
     public LruBitmapCache() {
         this(getDefaultLruCacheSize());
     }
