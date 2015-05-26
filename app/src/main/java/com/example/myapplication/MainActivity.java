@@ -66,16 +66,17 @@ public class MainActivity extends ActionBarActivity {
     void parseJson(final JSONObject response) {
     try {
         contentString = response.getString("pageContent");
-        Log.d(TAG,IndexURL);
-        webView.loadUrl(IndexURL);
+        Log.d(TAG, IndexURL);
+        webView.loadUrl(IndexURL + "javascript:init('" + contentString + "')");
+//        webView.loadUrl(IndexURL);
 
-        webView.setWebChromeClient(new WebChromeClient(){
-            public void onPageFinished(WebView view,String URL)
-            {
-                String javascript =  contentString;
-                webView.loadUrl("javascript:init('"+javascript+"')");
-            }
-        });
+//        webView.setWebChromeClient(new WebChromeClient(){
+//            public void onPageFinished(WebView view,String URL)
+//            {
+//                String javascript =  contentString;
+//                webView.loadUrl("javascript:init('"+javascript+"')");
+//            }
+//        });
     }catch (Exception e){
             e.printStackTrace();
         }
